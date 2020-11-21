@@ -1,0 +1,38 @@
+package plugin.midorin.info.bs;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
+import plugin.midorin.info.bs.commands.Main;
+import plugin.midorin.info.bs.commands.Mode;
+
+public final class BlockSeek extends JavaPlugin
+{
+    public static JavaPlugin plugin;
+
+    @Override
+    public void onEnable()
+    {
+        plugin = this;
+        Bukkit.getPluginManager().registerEvents(new Listeners(), this);
+
+        getCommand("mode").setExecutor(new Mode());
+        getCommand("blockseek").setExecutor(new Main());
+
+        Scoreboards.setup();
+        Items.setup();
+        Mode.gui.setItem(20, Items.milk_bucket);
+        Mode.gui.setItem(22, Items.water_bucket);
+        Mode.gui.setItem(24, Items.lava_bucket);
+    }
+
+    @Override
+    public void onDisable()
+    {
+        Game.reset();
+    }
+
+    public static JavaPlugin getPlugin()
+    {
+        return plugin;
+    }
+}

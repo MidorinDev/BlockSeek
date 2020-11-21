@@ -1,0 +1,12 @@
+name: BlockSeek
+version: ${project.version}
+main: plugin.midorin.info.bs.BlockSeek
+author: Minidon
+
+commands:
+  blockseek:
+    description: ゲームの操作コマンド
+    aliases:
+      - bs
+  mode:
+    description: ゲームの難易度変更コマンド
