@@ -3,6 +3,7 @@ package plugin.midorin.info.bs;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import plugin.midorin.info.bs.Teams.Entrant;
@@ -79,7 +80,7 @@ public class Game
             loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_AMBIENT, 50, 1);
             ap.sendTitle(ChatColor.GOLD + "ゲーム開始！", ChatColor.GRAY + "BlockSeek", 10, 10, 10);
             ap.setGameMode(GameMode.ADVENTURE);
-            //ap.getInventory().setItem(8, Items.s_block);
+            ap.getInventory().setItem(8, new ItemStack(select_block));
         }
         System.out.println(m);
         timer = new BukkitRunnable()
