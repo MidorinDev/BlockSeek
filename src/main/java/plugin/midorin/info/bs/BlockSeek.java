@@ -1,13 +1,18 @@
 package plugin.midorin.info.bs;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import plugin.midorin.info.bs.commands.Main;
 import plugin.midorin.info.bs.commands.Mode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class BlockSeek extends JavaPlugin
 {
     public static JavaPlugin plugin;
+    public static List<Player> players = new ArrayList<Player>();
 
     @Override
     public void onEnable()
@@ -28,7 +33,7 @@ public final class BlockSeek extends JavaPlugin
     @Override
     public void onDisable()
     {
-        Game.reset();
+        Scoreboards.reset();
     }
 
     public static JavaPlugin getPlugin()

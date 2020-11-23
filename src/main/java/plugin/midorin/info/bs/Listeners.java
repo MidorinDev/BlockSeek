@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+
 import plugin.midorin.info.bs.Teams.Entrant;
 import plugin.midorin.info.bs.commands.Mode;
 import plugin.midorin.info.bs.util.Messages;
@@ -19,34 +20,31 @@ public class Listeners implements Listener
 {
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e)
+    public void onPlayerMoveEvent(PlayerMoveEvent event)
     {
-        Player p = e.getPlayer();
-        Block block = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        Material sel_block = Game.select_block.get(0);
-        if (sel_block == null || block == null) return;
+        Player p = event.getPlayer();
 
-        if (Game.now)
-            if (Game.countdown == 0)
+        if (Game.select_block == null) return;
+        if (!BlockSeek.players.contains(p))
+        {
+            if (p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Game.select_block)
             {
-                if (block.getType().equals(sel_block))
+                if (Mode.easy || Mode.normal)
                 {
-                    p.sendMessage("ダイヤモンドブロックを踏みました");
-                    if (Mode.easy || Mode.normal)
-                    {
-                        p.sendMessage(Messages.PREFIX + ChatColor.GOLD + "あなたは次の試合への出場権利を取得しました。");
-                    }
-                    else if (Mode.hard)
-                    {
-                        // 乗っていたらポイントを加算
-                    }
+                    p.sendMessage(Messages.PREFIX + ChatColor.GOLD + "指定ブロックの上に乗りました。");
+                    BlockSeek.players.add(p);
                 }
-                else
+                else if (Mode.hard)
                 {
-                    p.setHealth(0.0d);
-                    Entrant.removePlayer(p, false);
+                    // 乗っていたらポイントを加算
                 }
             }
+        }
+        else
+        {
+            BlockSeek.players.remove(p);
+            p.sendMessage(Messages.PREFIX + ChatColor.RED + "指定ブロックの上から落ちました。");
+        }
     }
 
     @EventHandler
@@ -76,15 +74,13 @@ public class Listeners implements Listener
     {
         Player clicker = (Player) e.getWhoClicked();
         ItemStack item = e.getCurrentItem();
-        if (item.getType() == Game.select_block.get(0))
+        if (e.getInventory().getName().equalsIgnoreCase(Mode.gui.getName()))
         {
+            System.out.println("1");
             e.setCancelled(true);
-            clicker.closeInventory();
-        }
-        else if (e.getInventory().getName().equalsIgnoreCase(Mode.gui.getName()))
-        {
             if (item.getType() == Material.MILK_BUCKET)
             {
+                System.out.println("2");
                 if (Mode.easy)
                 {
                     clicker.closeInventory();
@@ -133,5 +129,4 @@ public class Listeners implements Listener
             }
         }
     }
-
 }

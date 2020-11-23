@@ -37,14 +37,14 @@ public class Main implements CommandExecutor
             {
                 if (sender.hasPermission("BlockSeek.start"))
                 {
-                    if (!(Mode.easy || Mode.normal || Mode.hard))
+                    if (Mode.easy || Mode.normal || Mode.hard)
                     {
                         for (Player ap : Bukkit.getOnlinePlayers())
                         {
                             if (!(ap.getGameMode() == GameMode.CREATIVE || ap.getGameMode() == GameMode.SPECTATOR))
                                 Entrant.addPlayer(ap, false);
                         }
-                        Game.start();
+                        Game.start_count();
                     }
                     else
                         sender.sendMessage(Messages.PREFIX + ChatColor.RED + "ゲームの難易度を設定してください。");
@@ -63,20 +63,20 @@ public class Main implements CommandExecutor
             {
                 if (sender.hasPermission("BlockSeek.setblock"))
                 {
-                    if (Game.select_block != null)
+                    ItemStack item = p.getInventory().getItemInMainHand();
+                    if (item != null)
                     {
-                        ItemStack item = p.getInventory().getItemInMainHand();
-                        if (item != null)
+                        if (Game.select_block == item.getType())
                         {
-                            Game.select_block.add(item.getType());
-                            Bukkit.broadcastMessage(Messages.PREFIX + ChatColor.YELLOW + "指定ブロックを " + ChatColor.WHITE + Game.select_block.get(0) + ChatColor.YELLOW + " ブロックに設定しました。");
-                            Items.setBlock();
+                            sender.sendMessage(Messages.PREFIX + ChatColor.RED + "指定ブロックは常に選択されています。");
+                            return true;
                         }
-                        else
-                            sender.sendMessage(Messages.PREFIX + ChatColor.RED + "指定ブロックを手に持って実行してください。");
+                        Game.select_block = item.getType();
+                        Bukkit.broadcastMessage(Messages.PREFIX + ChatColor.YELLOW + "指定ブロックを " + ChatColor.WHITE + item.getType().name() + ChatColor.YELLOW + " ブロックに設定しました。");
+                        //Items.setBlock();
                     }
                     else
-                        sender.sendMessage(Messages.PREFIX + ChatColor.RED + "指定ブロックは常に選択されています。");
+                        sender.sendMessage(Messages.PREFIX + ChatColor.RED + "指定ブロックを手に持って実行してください。");
                 }
                 else
                     Messages.sendPermissionError(sender);

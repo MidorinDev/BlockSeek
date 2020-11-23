@@ -20,9 +20,8 @@ public class Game
     public static int m = 2;
     public static BukkitRunnable timer;
     public static boolean now = false;
-    public static List<UUID> join_players = new ArrayList<UUID>();
 
-    public static List<Material> select_block = new ArrayList<Material>();
+    public static Material select_block = null;
     // 試合回数
     public static int times = 5;
 
@@ -54,7 +53,10 @@ public class Game
             public void run()
             {
                 if (before == 0)
+                {
+                    this.cancel();
                     start();
+                }
                 else
                 {
                     for (Player ap : Bukkit.getOnlinePlayers())
@@ -77,9 +79,9 @@ public class Game
             loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_AMBIENT, 50, 1);
             ap.sendTitle(ChatColor.GOLD + "ゲーム開始！", ChatColor.GRAY + "BlockSeek", 10, 10, 10);
             ap.setGameMode(GameMode.ADVENTURE);
-            ap.getInventory().setItem(8, Items.s_block);
+            //ap.getInventory().setItem(8, Items.s_block);
         }
-        m = m - 1;
+        System.out.println(m);
         timer = new BukkitRunnable()
         {
             public void run()
@@ -96,8 +98,20 @@ public class Game
 
                 if (countdown == 0)
                 {
-                    Bukkit.broadcastMessage(Messages.PREFIX + ChatColor.YELLOW + "---次の試合の参加者---");
-                    // ここにループ処理
+                    Bukkit.broadcastMessage(Messages.PREFIX + ChatColor.GRAY + "プレイヤーデータ処理中です...");
+                    for (Player sp : Bukkit.getOnlinePlayers())
+                    {
+                        if (!BlockSeek.players.contains(sp))
+                        {
+                            BlockSeek.players.remove(sp);
+                            Entrant.removePlayer(sp, false);
+                            sp.setHealth(0.0d);
+                        }
+                    }
+                    Bukkit.broadcastMessage(Messages.PREFIX + ChatColor.YELLOW + "--------" + ChatColor.GOLD + "次の試合の参加者" + ChatColor.YELLOW + "--------");
+                    for (int i=0; i<BlockSeek.players.size(); ++i)
+                        Bukkit.broadcastMessage(BlockSeek.players.get(i).getName());
+                    this.cancel();
                 }
                 countdown--;
             }
@@ -106,19 +120,19 @@ public class Game
     }
     public static void reset()
     {
-        timer.cancel();
+        if (timer != null) timer.cancel();
         now = false;
         Scoreboards.reset();
         Mode.gui.clear();
         before = 5;
         countdown = 120;
         m = 2;
-        if (join_players != null) join_players.clear();
+        if (BlockSeek.players != null) BlockSeek.players.clear();
         times = 5;
         Mode.easy = false;
         Mode.normal = false;
         Mode.hard = false;
-        if (select_block != null) select_block.clear();
+        if (select_block != null) select_block = null;
         Items.setup();
         Mode.gui.setItem(20, Items.milk_bucket);
         Mode.gui.setItem(22, Items.water_bucket);

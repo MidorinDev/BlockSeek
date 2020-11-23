@@ -24,8 +24,8 @@ public class Scoreboards
         manager = Bukkit.getScoreboardManager();
         board = manager.getMainScoreboard();
 
-        objective = board.registerNewObjective("blockseek", "dummy");
-        objective.setDisplayName(ChatColor.WHITE + "      BLockSeek      ");
+        objective = board.registerNewObjective("block-seek", "dummy");
+        objective.setDisplayName(ChatColor.WHITE + "      BlockSeek      ");
         air0 = objective.getScore(" ");
         air0.setScore(0);
         time_title = objective.getScore(ChatColor.GOLD + "  ゲーム時間:");

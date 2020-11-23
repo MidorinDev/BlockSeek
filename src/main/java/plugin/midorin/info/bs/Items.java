@@ -16,19 +16,21 @@ public class Items
         itemMeta3.setDisplayName(ChatColor.RED + "ハードモード");
         lava_bucket.setItemMeta(itemMeta3);
     }
-    public static final ItemStack milk_bucket = new ItemStack(Material.MILK_BUCKET);
-    static final ItemMeta itemMeta1 = milk_bucket.getItemMeta();
-    public static final ItemStack water_bucket = new ItemStack(Material.WATER_BUCKET);
-    static final ItemMeta itemMeta2 = water_bucket.getItemMeta();
-    public static final ItemStack lava_bucket = new ItemStack(Material.LAVA_BUCKET);
-    static final ItemMeta itemMeta3 = lava_bucket.getItemMeta();
-    public static void setBlock()
+    public static ItemStack milk_bucket = new ItemStack(Material.MILK_BUCKET);
+    public static ItemMeta itemMeta1 = milk_bucket.getItemMeta();
+    public static ItemStack water_bucket = new ItemStack(Material.WATER_BUCKET);
+    public static ItemMeta itemMeta2 = water_bucket.getItemMeta();
+    public static ItemStack lava_bucket = new ItemStack(Material.LAVA_BUCKET);
+    public static ItemMeta itemMeta3 = lava_bucket.getItemMeta();
+    private ItemStack s_block;
+    private ItemMeta itemMeta4;
+
+
+    public Items(Material block)
     {
-        s_block = new ItemStack(Game.select_block.get(0));
+        s_block = new ItemStack(block);
+        itemMeta4  = s_block.getItemMeta();
         itemMeta4.setDisplayName(ChatColor.GOLD + "次の指定ブロックです。");
         s_block.setItemMeta(itemMeta4);
     }
-    public static ItemStack s_block = new ItemStack(Game.select_block.get(0));
-    static final ItemMeta itemMeta4 = s_block.getItemMeta();
-
 }

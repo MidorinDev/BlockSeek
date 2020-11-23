@@ -22,9 +22,9 @@ public class Entrant
         if (team == null)
         {
             team = Scoreboards.board.registerNewTeam(TEAM);
-            team.setPrefix(ChatColor.RED.toString());
+            team.setPrefix(ChatColor.GREEN.toString());
             team.setSuffix(ChatColor.RESET.toString());
-            team.setDisplayName(ChatColor.RED + "Red");
+            team.setDisplayName(ChatColor.GREEN + "entrant");
             team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
             team.setAllowFriendlyFire(false);
         }

@@ -15,7 +15,7 @@ public class Mode implements CommandExecutor
     public static boolean normal = false;
     public static boolean hard = false;
 
-    public static Inventory gui = Bukkit.createInventory(null, 45, ChatColor.GOLD + "GameMode Selector");
+    public static Inventory gui = Bukkit.createInventory(null, 45, ChatColor.DARK_GREEN + "GameMode Selector");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
